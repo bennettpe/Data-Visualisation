@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Data-Driven Documents (D3) and Scalable Vector Graphics (SCG) </title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"> </script>
+</head>
+
+<body>
+    <h1> Data Visualisation </h1>
+    <h2> D3 Charting </h2>
+
+    <div id="draw-here"> </div>
+
+  <!--- write your d3 code between <script> </script> tags -->
+    <script>
+    var w = 500;
+    var h = 500;
+    var barPadding = 1;
+    var dataset = [
+        450, 100, 100, 279, 1600, 25, 350, 120, 80, 130,
+        110, 102, 375, 200, 175, 168, 180, 230, 205,
+    ];
+    
+    var scale = d3.scale.linear()             <!--- Create a Linear Scale ---> 
+        .domain([0, d3.max(dataset)])         <!--- Set Scale Range --->
+        .range([0, 500]);                     <!--- Set Range --->
+
+    var svg = d3.select("#draw-here")         <!--- Selection by ID                  "draw-here" ---> 
+        .append("svg")                        <!--- Adding           new DOM Element "svg"       --->
+        .attr("width", w)                     <!--- Add Attribute to new DOM Element "width"     --->
+        .attr("height", h);                   <!--- Add Attribute to new DOM Element "height"    --->
+        
+        <!----------------------------------------- Creates Rectangle --->
+    svg.selectAll("rect")                     <!--- Selects ALL DOM Elements by matching the given CSS Selector --->
+        .data(dataset)                        <!--- Counts and parses our data values --->
+        .enter()                              <!--- Creates a New Plaveholder element --->
+        .append("rect")                       <!--- Takes the placeholder selection created by enter() and inserts element into the DOM ---
+         
+        <!----------------------------------------- Creates "x" Attribute (s) --->    
+        .attr("x", function(d, i) {           <!--- d = each entry in the array , i = index of that data in the array --->
+             return i * (w / dataset.length); <!--- x = width / dataset length ---> 
+        })
+        
+        <!----------------------------------------- Creates "y" Attribute(s) --->  
+        .attr("y", function(d) {              <!--- d = each entry in the array --->
+             return h - scale(d);             <!--- y = height - scale = d of each entry in the array --->
+        })
+        
+        <!----------------------------------------- Creates "height" "width" Attribute(s) --->         
+        .attr("width", w / dataset.length - barPadding)
+        .attr("height", function(d) {
+              return scale(d);
+        });
+
+        <!---------------------------------------- Creates "text" Attribute(s) ---> 
+    svg.selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .text(function(d) {
+             return d;
+        })
+        
+        <!---------------------------------------- Creates "x" Attribute(s) ---> 
+        .attr("text-anchor", "middle")
+        .attr("x", function(d, i) {
+             return i * (w / dataset.length) + (w / dataset.length - barPadding) / 2;
+        })
+        
+        <!---------------------------------------- Creates "y" Attribute(s) ---> 
+        .attr("y", function(d) {
+             return h - scale(d) + 14;
+        })
+        
+        <!---------------------------------------- Creates font Attribute(s) --> 
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "white");
+    </script>
+</body>
+
+
+</html>

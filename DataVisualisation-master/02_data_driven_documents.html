@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Data Driven Documents</title>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+</head>
+<body>
+    <h1>Data Visualisation</h1>
+
+    <h2>Data Driven Documents</h2>
+
+    <div id="draw-here"></div>
+
+    <script>
+    var data = [
+        {"name": "Donald Duck", "bio":"First appeared in the 1934 cartoon The Wise Little Heon."},
+        {"name": "Mickey Mouse", "bio":"The first Mickey Mouse cartoon actually completed was Plane Crazy"},
+        {"name": "Minnie Mouse", "bio":"First appeared in Steamboad Willie, in 1928."},
+        {"name": "Goofy", "bio":"First appearance in 1932's Mickey's Revue."},
+    ];
+
+    //Create SVG element
+    var doc = d3.select("#draw-here");
+
+    var doc_item = doc.selectAll("div")
+        .data(data)
+        .enter()
+        .append("div");
+
+    doc_item.append("h4").text(function (d) {
+        return d.name;
+    });
+
+    doc_item.append("p").text(function (d) {
+        return d.bio;
+    });
+    </script>
+</body>
+</html>
